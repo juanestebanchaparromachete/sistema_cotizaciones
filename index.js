@@ -2,6 +2,8 @@
 
 var express = require('express');
 var path = require('path');
+var GridStore = require('mongodb').GridStore;
+var ObjectID = require('mongodb').ObjectID;
 
 var MongoClient = require('mongodb').MongoClient;
 var bodyParser = require('body-parser');
@@ -62,7 +64,7 @@ function postCotizacion(callback, cotizacion) {
         var cotizaciones = db.collection("cotizaciones");
 
         cotizaciones.insertMany([cotizacion], function (err, result) {
-            
+
         });
 
         cotizaciones.find({}).toArray(function (err, cotizaciones) {
@@ -86,7 +88,7 @@ function postProducto(callback, producto) {
         var productos = db.collection("productos");
 
         productos.insertMany([producto], function (err, result) {
-            
+
         });
 
         productos.find({}).toArray(function (err, productos) {
@@ -102,34 +104,48 @@ function postProducto(callback, producto) {
 }
 
 
-function deleteProducto(callback, id) {
+function deleteProducto(callback, idObj) {
+
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
 
         console.log("conectado a mongo");
 
         var productos = db.collection("productos");
+var query  = {
+            _id: new ObjectID(idObj)
+        };
+        productos.remove(query, function(err, result){
+            
+        })
 
-        productos.remove({_id: ObjectID(id)}, function(err, result) {
-            if (err) {
-                console.log(err);
+
+        /*productos.remove({
+            _id: idObj
+        }, function (err, bear) {
+            if (err){
+                callback(err, null);
             }
-            console.log(result);
+            callback(null, {
+                message: 'Successfully deleted'
+            });
         });
-        productos.find({}).toArray(function (err, productos) {
+*/
+
+
+        productos.find({}).toArray(function (err, products) {
             if (err) throw err;
-
-            console.log("hay " + productos.length + " cotizaciones");
-
-            callback(err, productos);
+            console.log("hay " + products.length + " products");
+            callback(err, products);
         });
         db.close();
     });
 
+
 }
 
-function putCotizacion(callback, cotizacion , cotizacionId){
-    
+function putCotizacion(callback, cotizacion, cotizacionId) {
+
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
 
@@ -137,11 +153,11 @@ function putCotizacion(callback, cotizacion , cotizacionId){
 
         var cotizaciones = db.collection("cotizaciones");
 
-        cotizaciones.collection.updateById(cotizacionId, cotizacion, function(err) { 
+        cotizaciones.collection.updateById(cotizacionId, cotizacion, function (err) {
             if (err) {
                 console.log(err);
             }
-            
+
         });
         cotizaciones.find({}).toArray(function (err, cotizaciones) {
             if (err) throw err;
@@ -166,7 +182,9 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.urlencoded({
+    extended: true
+})); // support encoded bodies
 
 
 //To prevent errors from Cross Origin Resource Sharing, we will set 
@@ -192,17 +210,17 @@ app.use(function (req, res, next) {
 //app.use('/api', router);
 
 
-router.get('/users', function(req, res, next) {
+router.get('/users', function (req, res, next) {
     // Comment out this line:
- //res.send('respond with a resource');
+    //res.send('respond with a resource');
 
- // And insert something like this instead:
- res.json([{
-     id: 1,
-     username: "samsepi0l"
+    // And insert something like this instead:
+    res.json([{
+        id: 1,
+        username: "samsepi0l"
  }, {
-     id: 2,
-     username: "D0loresH4ze"
+        id: 2,
+        username: "D0loresH4ze"
  }]);
 });
 
@@ -211,7 +229,7 @@ module.exports = router;
 // public es la ruta en la url
 //app.use("/public", express.static("./static"));
 
-app.use(express.static(path.join(__dirname,'front/build/')));
+app.use(express.static(path.join(__dirname, 'front/build/')));
 app.get('/', function (req, res) {
     res.send('hello world');
 });
@@ -241,10 +259,10 @@ app.get('/cotizaciones', function (req, res) {
 
 
 app.post('/cotizacion', function (req, res) {
-    
+
     console.log(req);
 
-    var cotizacion = {};   
+    var cotizacion = {};
     cotizacion.email = req.body.email;
     cotizacion.fecha = req.body.fecha;
     cotizacion.nombreCliente = req.body.nombreCliente;
@@ -252,23 +270,23 @@ app.post('/cotizacion', function (req, res) {
     cotizacion.estado = req.body.estado;
     cotizacion.productos = req.body.productos;
 
-   postCotizacion(function (err, cotizaciones) {
+    postCotizacion(function (err, cotizaciones) {
         if (err) {
             res.json(["Error obteniendo cotizacones"]);
             return;
         }
         res.json(cotizaciones);
     }, cotizacion);
-    
+
 });
 
 
 
 app.post('/producto', function (req, res) {
-    
+
     console.log(req);
 
-    var producto = {}; 
+    var producto = {};
     producto.nombre = req.body.nombre;
     producto.alto = req.body.alto;
     producto.largo = req.body.largo;
@@ -276,38 +294,40 @@ app.post('/producto', function (req, res) {
     producto.alto = req.body.alto;
     producto.urlImagen = req.body.urlImagen;
     producto.descripcion = req.body.descripcion;
-    
 
-   postProducto(function (err, productos) {
+
+    postProducto(function (err, productos) {
         if (err) {
             res.json(["Error obteniendo productos"]);
             return;
         }
         res.json(productos);
     }, producto);
-    
+
 });
 
 
-app.delete('/producto', function (req, res) {
-    
-    let productId = req.body._id;
-   deleteProducto(function (err, productos ) {
+app.delete('/producto/:productoId', function (req, res) {
+
+    let productID = req.params.productoId;
+
+    deleteProducto(function (err, productos) {
+
         if (err) {
-            res.json(["Error obteniendo productos"]);
+            res.json([err]);
             return;
         }
         res.json(productos);
-    }, productId);
-    
+    }, productID);
+
 });
 
 
 
 app.put('/cotizacion/:cotizacionId', function (req, res) {
     let cotizacionId = req.params.cotizacionId;
-    
-    var cotizacion = {};   
+
+    var cotizacion = {};
     cotizacion.email = req.body.email;
     cotizacion.fecha = req.body.fecha;
     cotizacion.nombreCliente = req.body.nombreCliente;
@@ -315,16 +335,14 @@ app.put('/cotizacion/:cotizacionId', function (req, res) {
     cotizacion.estado = req.body.estado;
     cotizacion.productos = req.body.productos;
 
-    
-    
-   putCotizacion(function (err, cotizaciones) {
+    putCotizacion(function (err, cotizaciones) {
         if (err) {
             res.json(["Error obteniendo productos"]);
             return;
         }
         res.json(cotizaciones);
-    }, cotizacion , cotizacionId);
-    
+    }, cotizacion, cotizacionId);
+
 });
 
 
