@@ -152,13 +152,12 @@ function putCotizacion(callback, cotizacion, cotizacionId) {
         console.log("conectado a mongo");
 
         var cotizaciones = db.collection("cotizaciones");
+        var query  = {
+            _id: new ObjectID(cotizacionId)
+        };
+        
+        cotizaciones.updateOne(query, {$set:cotizacion});
 
-        cotizaciones.collection.updateById(cotizacionId, cotizacion, function (err) {
-            if (err) {
-                console.log(err);
-            }
-
-        });
         cotizaciones.find({}).toArray(function (err, cotizaciones) {
             if (err) throw err;
 
