@@ -289,10 +289,9 @@ app.post('/producto', function (req, res) {
 });
 
 
-app.delete('/producto/:productId', function (req, res) {
-    let productId = req.params.productId;
+app.delete('/producto', function (req, res) {
     
-    console.log('HOLA');
+    let productId = req.body._id;
    deleteProducto(function (err, productos ) {
         if (err) {
             res.json(["Error obteniendo productos"]);
@@ -302,6 +301,8 @@ app.delete('/producto/:productId', function (req, res) {
     }, productId);
     
 });
+
+
 
 app.put('/cotizacion/:cotizacionId', function (req, res) {
     let cotizacionId = req.params.cotizacionId;
