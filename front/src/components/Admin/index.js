@@ -25,7 +25,7 @@ export default class Admin extends Component {
     } 
 
     handleDelete(data) {
-      deleteItem(data._id);
+      deleteItem(data);
   }
   handleClick() {
     this.setState( { condition : !this.state.condition } ); 
@@ -103,7 +103,7 @@ nameChange(event) {
 
           <div className={this.state.condition ? "quoteBG active" :"quoteBG"}>
                     <div className={this.state.condition ? "quote active" :"quote"}>
-                        <form onSubmit={this.concatanateProducts}>
+                        <form onSubmit={this.createProduct.bind(this)}>
                             <label>
                             Nombre:<input required type="text" value={this.state.item.nombre} onChange={this.nameChange} />
                             </label>
@@ -122,7 +122,7 @@ nameChange(event) {
                             <label>
                             Largo(m):<input required type="number" value={this.state.item.largo} onChange={this.longChange} />
                             </label>
-                          <button onClick={this.createProduct.bind(this)}>Agregar Producto</button>
+                          <button type="submit">Agregar Producto</button>
                         </form> 
                     </div>
                 </div>
@@ -139,7 +139,7 @@ nameChange(event) {
          {this.state.quotes.map(post =>
     <div  key = { post.id } className="product">
       <h1>{post.nombre}</h1>
-      <h2>{post.email}</h2>
+      <h2><a href={"mailto:" + post.email}>{post.email}</a></h2>
       <h3>{post.telefono}</h3>
       <h4>{post.fecha}</h4>
       <ul>

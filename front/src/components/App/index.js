@@ -106,7 +106,7 @@ class App extends Component {
                         product.nombre
                     } < /h2> < h3 > {
                         product.descripcion
-                    } < /h3> < h4 > < b > alto: < /b>{product.alto} < b > ancho: < /b>{product.ancho} < b > profundo: < /b>{product.largo} < /h4> < button className = "addProduct"
+                    } < /h3> < h4 > < b > alto: < /b>{product.alto} m < b > ancho: < /b>{product.ancho} m < b > profundo: < /b>{product.largo} m < /h4> < button className = "addProduct"
                     onClick = {() => {this.addProduct(product)}} > Agregar a Cotizaci&oacute;n < /button> < /div>)
             } < /div>);
     }

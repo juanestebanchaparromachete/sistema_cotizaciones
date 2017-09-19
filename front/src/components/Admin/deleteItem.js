@@ -1,9 +1,14 @@
 import fetch from 'isomorphic-fetch';
 
-export function deleteItem(id) {
-    return fetch('/producto/' + id, {
+export function deleteItem(data) {
+    return fetch('/producto', {
         method: 'DELETE',
-        mode: 'CORS'
-    }).then(res => { return res
-     }).catch(err => err);
+        mode: 'CORS',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+        return res;
+    }).catch(err => err);
 }
