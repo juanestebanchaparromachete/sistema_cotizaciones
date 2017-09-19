@@ -16,8 +16,20 @@
     border-radius: 25px;
     background-color: white;
     text-align: center;
-    padding: 25x;
-    margin: 0 10px;
+    padding: 5%;
+    margin: 25px 10px;
+}
+.obj button {
+    border: none;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.3);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+}
+.obj button:hover {
+    cursor: pointer;
+    background-color: #E6E6E6;
 }
 .obj img {
     width: 50px;
@@ -28,7 +40,7 @@ h2 {
     font-size: 1em;
     font-weight: 500;
 }
-.shoppingCart {
+.addBtn {
     z-index: 1000;
     margin-top: 25px;
     position:fixed;
@@ -40,24 +52,24 @@ h2 {
     box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.3);
     right: 5%;
     transition: all 0.25s ease-out;
-    background-image: url(sC-Blue.png);
+    background-image: url(add-Blue.png);
     background-repeat: no-repeat;
     background-position: center; 
 }
-.shoppingCart:hover {
+.addBtn:hover {
     background-color: #1b1f22;
     cursor: pointer;
-    background-image: url(sC-White.png);
+    background-image: url(add-White.png);
 }
 button:focus {outline:0;}
-.shoppingCart:active {
+.addBtn:active {
     width: 45px;
     height: 45px;
 }
-.shoppingCart.active {
+.addBtn.active {
     background-image: url(x-Blue.png);
 }
-.shoppingCart.active:hover {
+.addBtn.active:hover {
     background-image: url(x-White.png);
 }
 .quote {
@@ -90,6 +102,18 @@ button:focus {outline:0;}
     display: inline-block;
     overflow-y: scroll;
 }
-/* input[type=text], input[type=number] {
+.quote button{ 
+    border:none;
+    background-color: white;
+    border-radius: 25px;
+    padding: 10px 15px;
+    margin: 5px;
+} 
+.quote button:hover {
+    cursor: pointer;
+}
+input[type=text], input[type=number] {
+    margin: 10px;
+    border-radius: 5px;
 
-} */
+}

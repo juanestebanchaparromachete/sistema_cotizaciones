@@ -103,6 +103,7 @@ nameChange(event) {
 
           <div className={this.state.condition ? "quoteBG active" :"quoteBG"}>
                     <div className={this.state.condition ? "quote active" :"quote"}>
+                      <h1>Agrega un Producto</h1><br />
                         <form onSubmit={this.createProduct.bind(this)}>
                             <label>
                             Nombre:<input required type="text" value={this.state.item.nombre} onChange={this.nameChange} />
@@ -112,7 +113,7 @@ nameChange(event) {
                             </label>
                             <label>
                             Url Imagen:<input required type="text" value={this.state.item.urlImagen} onChange={this.urlChange} />
-                            </label>
+                            </label><br />
                             <label>
                             Alto(m):<input required type="number" value={this.state.item.alto} onChange={this.highChange} />
                             </label>
@@ -121,7 +122,7 @@ nameChange(event) {
                             </label>
                             <label>
                             Largo(m):<input required type="number" value={this.state.item.largo} onChange={this.longChange} />
-                            </label>
+                            </label><br />
                           <button type="submit">Agregar Producto</button>
                         </form> 
                     </div>
@@ -129,7 +130,7 @@ nameChange(event) {
 
 
           < button onClick ={this.handleClick.bind(this)}
-            className={this.state.condition ? "shoppingCart active" :"shoppingCart"} > </button>
+            className={this.state.condition ? "addBtn active" :"addBtn"} > </button>
 
         {this.state.products.map(product=> <div className="obj">
         < img src = {product.urlImagen} /> <h2> {product.nombre} </h2><br />

@@ -2,16 +2,15 @@ import React, {
     Component
 }
 from 'react';
-import logo from './logo.svg';
-import './style.css';
+import './styleApp.css';
 import { createQuote } from './createQuote'
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             products: []
-            , quote: { email: '', telefono: '', 'fecha': new Date(), nombreCliente: ''},
-            productos: [],
+            , quote: { email: '', telefono: '', 'fecha': new Date(), nombreCliente: '', productos:[]},
+            // productos: [],
             condition: false
         };
         // This binding is necessary to make `this` work in the callback
@@ -26,11 +25,12 @@ class App extends Component {
         this.setState( { condition : !this.state.condition } ); 
     }
     addProduct(prod) {
-        var joined = this.state.productos.concat(prod);
+        const newPro = this.state.quote.productos.concat(prod);
+        this.state.quote.productos = newPro;
         this.setState(prevState => ({
-            productos: joined
+            quote: this.state.quote
         }));
-        this.forceUpdate();
+        console.log(this.state.quote);
     }
     nameChange(event) {
     const target = event.target;
@@ -55,28 +55,23 @@ class App extends Component {
         this.setState(prevState => ({
              quote: this.state.quote
         }));
-        console.log('hola');
     }
     componentDidMount() {
             fetch('/products').then(res => res.json()).then(products => this.setState({
                 products
             }));
         }
-    handleSubmit(data) {
-                createQuote(data);
+    handleSubmit() {
+                createQuote(this.state.quote);
             }
-    concatanateProducts() { 
-                const quote = this.state.quote;
-                quote.productos = this.state.productos;
-                this.handleSubmit(quote);
-        }
     render() {
         return ( 
             
             < div id = "products" > 
                 <div className={this.state.condition ? "quoteBG active" :"quoteBG"}>
                     <div className={this.state.condition ? "quote active" :"quote"}>
-                        <form onSubmit={this.concatanateProducts}>
+                        <h2>Tu carrito de compras</h2>
+                        <form onSubmit={this.handleSubmit}>
                             <label>
                             Nombre:<input required type="text" value={this.state.quote.nombre} onChange={this.nameChange} />
                             </label>
@@ -86,16 +81,14 @@ class App extends Component {
                             <label>
                             Telefono:<input required type="number" value={this.state.quote.telefono} onChange={this.phoneChange} />
                             </label>
-//                            <button type="submit">Enviar cotizaci&oacute;n</button>
+                            <button type="submit">Enviar cotizaci&oacute;n</button>
                         </form> 
-            <button onClick={this.concatanateProducts.bind(this)}>Enviar cotizaci&oacute;n</button>
-
-                       { this.state.productos.map((objProd) => < div key = {objProd.urlImagen}
-                        className = "review" > < img src = {objProd.urlImagen}/> < h2 > {objProd.nombre} < /h2>  < /div>)}
+                       { this.state.quote.productos.map((objProd) => < div key = {objProd.urlImagen}
+                        className = "review" > < img src = {objProd.urlImagen}/> < h2 > {objProd.nombre} </h2>  </div>)}
                     </div>
                 </div>
                 < button onClick ={this.handleClick.bind(this)}
-            className={this.state.condition ? "shoppingCart active" :"shoppingCart"} > < /button> {
+            className={this.state.condition ? "shoppingCart active" :"shoppingCart"} > </button> {
                 this.state.products.map(product => < div key = {
                         product.id
                     }
@@ -104,11 +97,11 @@ class App extends Component {
                     }
                     /> < h2 > {
                         product.nombre
-                    } < /h2> < h3 > {
+                    } </h2> < h3 > {
                         product.descripcion
-                    } < /h3> < h4 > < b > alto: < /b>{product.alto} m < b > ancho: < /b>{product.ancho} m < b > profundo: < /b>{product.largo} m < /h4> < button className = "addProduct"
-                    onClick = {() => {this.addProduct(product)}} > Agregar a Cotizaci&oacute;n < /button> < /div>)
-            } < /div>);
+                    } </h3> < h4 > < b > alto: </b>{product.alto} m < b > ancho: </b>{product.ancho} m < b > profundo: </b>{product.largo} m </h4> < button className = "addProduct"
+                    onClick = {() => {this.addProduct(product)}} > Agregar a Cotizaci&oacute;n </button> </div>)
+            } </div>);
     }
 }
 export default App;

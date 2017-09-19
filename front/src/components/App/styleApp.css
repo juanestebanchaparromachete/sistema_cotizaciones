@@ -48,14 +48,14 @@ body {
     box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.3);
     right: 5%;
     transition: all 0.25s ease-out;
-    background-image: url(sC-Blue.png);
+    background-image: url(shoC-Blue.png);
     background-repeat: no-repeat;
     background-position: center; 
 }
 .shoppingCart:hover {
     background-color: #1b1f22;
     cursor: pointer;
-    background-image: url(sC-White.png);
+    background-image: url(shoC-White.png);
 }
 button:focus {outline:0;}
 .shoppingCart:active {
@@ -144,7 +144,11 @@ button:focus {outline:0;}
     background-image: url(x-White.png);
 }
 .review {
-    border-bottom: 1px solid;
+    width: auto;
+    height: auto;
+    display: inline-block;
+    margin: 5px;
+    border: solid 1px;
     border-color: white;
 }
 .review img {
@@ -155,4 +159,20 @@ button:focus {outline:0;}
 .review h2 {
     font-weight: 500;
     font-size: 1.2em;
+}
+.quote button{ 
+    border:none;
+    background-color: white;
+    border-radius: 25px;
+    padding: 10px 15px;
+    margin: 5px;
+} 
+.quote button:hover {
+    cursor: pointer;
+    background-color: #E6E6E6;
+}
+input[type=text], input[type=number], input[type=email]  {
+    margin: 10px;
+    border-radius: 5px;
+
 }
