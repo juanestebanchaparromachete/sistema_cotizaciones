@@ -1,9 +1,18 @@
+<<<<<<< HEAD:front/src/components/App/index.js
 import React, {
     Component
 }
 from 'react';
 import './styleApp.css';
 import { createQuote } from './createQuote'
+=======
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+
+//import { createBlogPost } from './createProduct'
+
+>>>>>>> parent of 93a5c8f... routing:front/src/App.js
 class App extends Component {
     constructor(props) {
         super(props);
