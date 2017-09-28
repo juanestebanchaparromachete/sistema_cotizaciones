@@ -1,10 +1,9 @@
 import fetch from 'isomorphic-fetch';
 
 export function deleteItem(data) {
-    return fetch('/producto', {
+    return fetch('/producto/' + data.id, {
         method: 'DELETE',
         mode: 'CORS',
-        body: JSON.stringify(data),
         headers: {
             'Content-Type': 'application/json'
         }
